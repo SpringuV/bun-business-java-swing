@@ -1,0 +1,71 @@
+package model;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
+
+@Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "ingredients")
+public class Ingredient {
+	@Id
+	@Column(name = "name_ingredient", nullable = false, unique = true)
+	private String name_ingredients; // tên nguyên liệu
+
+	@Column(name = "prices")
+	private double prices;
+
+	@Column(name = "quantity")
+	private int quantity; // hàng tồn kho hiện tại
+
+	@Column(name = "unit_of_measurement")
+	private String unit_of_measurement; // đơn vị đo: cái, kg
+
+	@Column(name = "description")
+	private String description;
+
+	@Column(name = "supplier")
+	private String supplier;
+
+	@Column(name = "created_at", updatable = false) // chỉ set 1 lần khi insert.
+	private LocalDateTime created_at;
+
+	@Column(name = "updated_at")
+	private LocalDateTime updated_at;
+
+	@OneToMany(mappedBy = "ingredient", cascade = CascadeType.ALL)
+	private List<InventoryTransaction> inventory_transaction_list;
+	
+	// method
+	@PrePersist
+	protected void onCreate() {
+		this.created_at = LocalDateTime.now();
+		this.updated_at = LocalDateTime.now();
+	}
+
+	@PreUpdate
+	protected void onUpdate() {
+		this.updated_at = LocalDateTime.now();
+	}
+
+}
