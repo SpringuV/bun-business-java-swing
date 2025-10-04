@@ -13,9 +13,11 @@ import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 
 @Entity
@@ -23,9 +25,11 @@ import lombok.experimental.FieldDefaults;
 @Builder
 @Getter
 @Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "users")
+@ToString(exclude = {"order_list", "inventory_transaction_list"}) // Tránh vòng lặp toString
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
@@ -34,7 +38,10 @@ public class User {
 	@Column(name = "phone_number", unique = true)
 	String phone_number;
 	
-	@Column(name = "pass", unique = true)
+	@Column(name = "full_name")
+	String full_name;
+	
+	@Column(name = "pass")
 	String pass;
 	
 	@Column(name = "role")

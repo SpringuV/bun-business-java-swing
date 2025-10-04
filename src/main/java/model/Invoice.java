@@ -1,10 +1,13 @@
 package model;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,40 +20,63 @@ import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.experimental.FieldDefaults;
 
 @Entity
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "invoices")
 public class Invoice {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.UUID)
 	@Column(name = "id_invoice")
-	private String id_invoice;
-	
+	String id_invoice;
+
 	@ManyToOne
 	@JoinColumn(name = "id_user")
-	private User user; 
-	
+	User user;
+
 	@Column(name = "created_at", updatable = false)
-	private LocalDateTime created_at;
-	
+	LocalDateTime created_at;
+
 	@Column(name = "updated_at")
-    private LocalDateTime updated_at;
-	
+	LocalDateTime updated_at;
+
 	@OneToOne
 	@JoinColumn(name = "id_order")
-	private Order orders;
+	Order orders;
 	
-	@Column(name = "discount")
-	private double discount;
-	
-	public enum PaymentMethod {CASH, CARD, BANKING}
-	@Column(name = "payment_method")
-	private String payment_method; // "CASH", "CARD", "DIGITAL_WALLET"
+	@ManyToOne
+	@JoinColumn(name = "customer")
+	Customer customer;
 
-	public enum PaymentStatus {PENDING, PAID, REFUNDED}
+	@Column(name = "discount")
+	double discount;
+
+	public enum PaymentMethod {
+		CASH, CARD, BANKING, DIGITAL_WALLET
+	}
+	@Enumerated(EnumType.STRING)
+	@Column(name = "payment_method")
+	PaymentMethod payment_method;
+
+	public enum PaymentStatus {
+		PENDING, PAID, REFUNDED
+	}
+	@Enumerated(EnumType.STRING)
 	@Column(name = "payment_status")
-	private String payment_status; // "PENDING", "PAID", "REFUNDED"
+	PaymentStatus payment_status; 
 	
 	@PrePersist
 	protected void onCreate() {

@@ -56,20 +56,21 @@ public class Order {
 	@ManyToMany(mappedBy = "order_list", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	List<GuestTable> guest_table_list = new ArrayList<>();
 	
+	@Builder.Default
 	@OneToMany(mappedBy = "order", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
 	List<OrderItem> order_item_list = new ArrayList<>();	
 	
 //	Tăng type safety, tránh nhập sai giá trị trạng thái.
 //	Lưu vào DB dạng String, dễ đọc/tra cứu.
 	public enum OrderStatus { PENDING, PREPARING, READY, SERVED, CANCELLED }
-	@Column(name = "order_status")
 	@Enumerated(EnumType.STRING)
-	String order_status; // "PENDING", "PREPARING", "READY", "SERVED", "CANCELLED"
+	@Column(name = "order_status")
+	OrderStatus order_status;
 
 	public enum OrderType { DELIVERY, TAKEAWAY, DINE_IN }
-	@Column(name = "order_type")
 	@Enumerated(EnumType.STRING)
-	String order_type; // "DINE_IN", "TAKEAWAY", "DELIVERY"
+	@Column(name = "order_type")
+	OrderType order_type; // "DINE_IN", "TAKEAWAY", "DELIVERY"
 
 	@Column(name = "total_amount")
 	double total_amount;
