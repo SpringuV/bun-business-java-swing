@@ -5,6 +5,8 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -31,29 +33,41 @@ import lombok.experimental.FieldDefaults;
 @Table(name = "foods")
 public class Food {
 	@Id
-	@GeneratedValue(strategy =  GenerationType.UUID)
 	@Column(name = "id_food", unique = true)
-	private String id_food;
+	String id_food;
 	
-	@Column(name = "name_food")
-	private String name_food;
+	@Column(name= "name_food")
+	String name_food;
 	
 	@Column(name= "prices")
-	private double prices;
+	double prices;
 	
 	@Column(name="description")
-	private String description;
+	String description;
 	
 	@Column(name="image_path")
-	private String image_path;
+	String image_path;
 	
+	public enum FoodType {
+	    APPETIZER,      // món khai vị
+	    MAIN_COURSE,    // món chính
+	    DESSERT,        // tráng miệng
+	    DRINK,          // đồ uống
+	    SPICY,          // cay
+	    SWEET,          // ngọt
+	    VEGETARIAN,     // chay
+	    SEAFOOD,        // hải sản
+	    FAST_FOOD       // đồ ăn nhanh
+	}
+	@Enumerated(EnumType.STRING)
 	@Column(name="type_food")
-	private String type_food;
+	FoodType type_food;
 	
+	@Builder.Default
 	@Column(name = "is_available")
-	private boolean is_available = true; // daily availability
+	boolean is_available = true; // daily availability
 	
-	@OneToMany(mappedBy = "food", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-	private List<OrderItem> order_item_list;
+	@OneToMany(mappedBy = "food", cascade = CascadeType.ALL)
+	List<OrderItem> order_item_list;
 
 }

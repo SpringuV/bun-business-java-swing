@@ -1,0 +1,56 @@
+package repository;
+
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import model.GuestTable;
+import model.GuestTable.TypeTable;
+
+public class GuestTableRepositoryImplement extends BaseDao<GuestTable>{
+	private static final Logger logger = LogManager.getLogger(GuestTableRepositoryImplement.class);
+	
+	public boolean createGuestTable(TypeTable type_table) throws Exception {
+		GuestTable guestTable = GuestTable.builder().is_available(true).type(type_table).build();
+		return saveOrUpdate(guestTable) != null;
+	}
+	
+	public List<GuestTable> getListTalbeAvailable() throws Exception {
+		List<GuestTable> guest_table_list;
+		try {
+			startOperation();
+			String hql = "SELECT gt FROM GuestTable gt WHERE gt.is_available = true";
+			guest_table_list = session.createQuery(hql, GuestTable.class).list();
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			SessionUtils.rollback(transaction);
+			logger.error("Error getListTalbeAvailable: {}", e.getMessage(), e);
+			throw e;
+		} finally {
+			closeSession();
+		}
+		return guest_table_list;
+	}
+	
+	public String deleteTableById(int id) throws Exception {
+		String result = "delete failed";
+		try {
+			startOperation();
+			String hql = "DELETE FROM GuestTable WHERE id_table=:id_table";
+			int rowEffected = session.createQuery(hql, Integer.class).setParameter("id_table", id).executeUpdate();
+			if(rowEffected > 0) result = "delete success";
+			transaction.commit();
+		} catch (Exception e) {
+			// TODO: handle exception
+			SessionUtils.rollback(transaction);
+			logger.error("Error deleteTableById: {}", e.getMessage(), e);
+			throw e;
+		} finally {
+			closeSession();
+		}
+		return result;
+	}
+	
+}

@@ -36,7 +36,7 @@ import lombok.experimental.FieldDefaults;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "orders")
-public class Order {
+public class Orders {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,11 +53,11 @@ public class Order {
 //	Tránh NullPointerException khi dùng builder hoặc thêm phần tử vào list.
 //	Khi dùng builder của Lombok, nếu không thêm @Builder.Default, các list sẽ là null.
 	@Builder.Default
-	@ManyToMany(mappedBy = "order_list", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@ManyToMany(mappedBy = "order_list", cascade = CascadeType.ALL)
 	List<GuestTable> guest_table_list = new ArrayList<>();
 	
 	@Builder.Default
-	@OneToMany(mappedBy = "order", cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+	@OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true) // xóa 1 phần tử khỏi order_item_list, Hibernate sẽ tự động DELETE bản ghi tương ứng trong DB.
 	List<OrderItem> order_item_list = new ArrayList<>();	
 	
 //	Tăng type safety, tránh nhập sai giá trị trạng thái.
@@ -74,9 +74,6 @@ public class Order {
 
 	@Column(name = "total_amount")
 	double total_amount;
-
-	@Column(name = "special_requests")
-	String special_requests; // customer notes
 
 	@Column(name = "estimated_ready_time")
 	LocalDateTime estimated_ready_time;

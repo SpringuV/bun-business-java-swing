@@ -55,7 +55,7 @@ public class Invoice {
 
 	@OneToOne
 	@JoinColumn(name = "id_order")
-	Order orders;
+	Orders orders;
 	
 	@ManyToOne
 	@JoinColumn(name = "customer")
@@ -77,6 +77,9 @@ public class Invoice {
 	@Enumerated(EnumType.STRING)
 	@Column(name = "payment_status")
 	PaymentStatus payment_status; 
+	
+	@Column(name = "note")
+	String note;
 	
 	@PrePersist
 	protected void onCreate() {

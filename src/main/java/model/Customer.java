@@ -43,12 +43,9 @@ public class Customer {
 	@Column(name="sex_cus")
 	private boolean sex_cus;
 	
-	@Column(name="age_cus")
-	private int age_cus;
-	
 	@Column(name="description")
 	private String description;
 	
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-	private List<Order> order_list;
+	private List<Orders> order_list;
 }

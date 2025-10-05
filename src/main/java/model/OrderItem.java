@@ -35,7 +35,7 @@ public class OrderItem {
 	@ManyToOne
 	@MapsId("id_order")
 	@JoinColumn(name = "id_order")
-	Order order;
+	Orders order;
 
 	@ManyToOne
 	@MapsId("id_food")
@@ -47,6 +47,9 @@ public class OrderItem {
 
 	@Column(name = "price")
 	double price;
+	
+	@Column(name = "special_requests")
+	String special_requests; // customer notes
 
 	@Column(name = "unit")
 	String unit;
