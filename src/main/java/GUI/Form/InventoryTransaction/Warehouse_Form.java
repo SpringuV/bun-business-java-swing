@@ -3,22 +3,30 @@ package GUI.Form.InventoryTransaction;
 import javax.swing.*;
 import javax.swing.border.*;
 import javax.swing.table.*;
+
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
+
 import java.awt.*;
+import java.util.Calendar;
 import java.util.Date;
 
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Warehouse_Form extends JPanel {
 
-    private JTextField txtNguoiNhap;
-    private JSpinner spNgayNhap;
-    private JComboBox<String> cboKhoNhap;
+    JTextField txtActorInput;
+    JSpinner spinnerCreatedAt;
+    JComboBox<String> comboBoxInputWarehouse;
 
-    private JTable tblSanPham;
-    private DefaultTableModel tableModel;
-    private boolean isUpdating = false;
+    JTable tblProductFood;
+    DefaultTableModel tableModel;
+    boolean isUpdating = false;
 
-    private JTextField txtTongTien;
-    private JButton btnNhap;
-    private JButton btnHuy;
+    JTextField txtTotalMoney;
+    JButton btnInput;
+    JButton btnCancel;
 
     public Warehouse_Form() {
         JPanel mainPanel = new JPanel(new BorderLayout(12, 12));
@@ -31,24 +39,24 @@ public class Warehouse_Form extends JPanel {
         gbc.insets = new Insets(6,6,6,6);
         gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        JLabel lblNguoiNhap = new JLabel("Người nhập:");
-        txtNguoiNhap = new JTextField();
-        txtNguoiNhap.setEditable(false);
+        JLabel lblActorInput = new JLabel("Người nhập:");
+        txtActorInput = new JTextField();
+        txtActorInput.setEditable(false);
 
-        JLabel lblNgayNhap = new JLabel("Ngày nhập:");
-        spNgayNhap = new JSpinner(new SpinnerDateModel(new Date(), null, null, java.util.Calendar.DAY_OF_MONTH));
-        spNgayNhap.setEditor(new JSpinner.DateEditor(spNgayNhap, "dd/MM/yyyy"));
+        JLabel lblCreateAt = new JLabel("Ngày nhập:");
+        spinnerCreatedAt = new JSpinner(new SpinnerDateModel(new Date(), null, null, Calendar.DAY_OF_MONTH));
+        spinnerCreatedAt.setEditor(new JSpinner.DateEditor(spinnerCreatedAt, "dd/MM/yyyy"));
 
-        JLabel lblKhoNhap = new JLabel("Kho nhập:");
-        cboKhoNhap = new JComboBox<>();
-        cboKhoNhap.setEnabled(false);
+        JLabel lblInputWarehouse = new JLabel("Kho nhập:");
+        comboBoxInputWarehouse = new JComboBox<>();
+        comboBoxInputWarehouse.setEnabled(false);
 
-        gbc.gridy = 0; gbc.gridx = 0; headerPanel.add(lblNguoiNhap, gbc);
-        gbc.gridx = 1; gbc.weightx = 1; headerPanel.add(txtNguoiNhap, gbc);
-        gbc.gridy = 1; gbc.gridx = 0; gbc.weightx = 0; headerPanel.add(lblNgayNhap, gbc);
-        gbc.gridx = 1; gbc.weightx = 1; headerPanel.add(spNgayNhap, gbc);
-        gbc.gridy = 2; gbc.gridx = 0; headerPanel.add(lblKhoNhap, gbc);
-        gbc.gridx = 1; gbc.weightx = 1; headerPanel.add(cboKhoNhap, gbc);
+        gbc.gridy = 0; gbc.gridx = 0; headerPanel.add(lblActorInput, gbc);
+        gbc.gridx = 1; gbc.weightx = 1; headerPanel.add(txtActorInput, gbc);
+        gbc.gridy = 1; gbc.gridx = 0; gbc.weightx = 0; headerPanel.add(lblCreateAt, gbc);
+        gbc.gridx = 1; gbc.weightx = 1; headerPanel.add(spinnerCreatedAt, gbc);
+        gbc.gridy = 2; gbc.gridx = 0; headerPanel.add(lblInputWarehouse, gbc);
+        gbc.gridx = 1; gbc.weightx = 1; headerPanel.add(comboBoxInputWarehouse, gbc);
 
         // Table
         String[] cols = {"STT", "Tên", "Đơn vị", "Số lượng", "Giá", "Tổng"};
@@ -67,16 +75,16 @@ public class Warehouse_Form extends JPanel {
             }
         };
 
-        tblSanPham = new JTable(tableModel);
-        tblSanPham.setRowHeight(26);
-        tblSanPham.setFillsViewportHeight(true);
-        tblSanPham.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        tblProductFood = new JTable(tableModel);
+        tblProductFood.setRowHeight(26);
+        tblProductFood.setFillsViewportHeight(true);
+        tblProductFood.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         // Căn chỉnh kích thước cột
-        JTableHeader header = tblSanPham.getTableHeader();
+        JTableHeader header = tblProductFood.getTableHeader();
         header.setReorderingAllowed(false);
 
-        TableColumnModel columnModel = tblSanPham.getColumnModel();
+        TableColumnModel columnModel = tblProductFood.getColumnModel();
         columnModel.getColumn(0).setPreferredWidth(50);   // STT
         columnModel.getColumn(1).setPreferredWidth(300);  // Tên sản phẩm
         columnModel.getColumn(2).setPreferredWidth(100);  // Đơn vị
@@ -91,7 +99,7 @@ public class Warehouse_Form extends JPanel {
         columnModel.getColumn(4).setCellRenderer(rightAlign);
         columnModel.getColumn(5).setCellRenderer(rightAlign);
 
-        JScrollPane scrollPane = new JScrollPane(tblSanPham);
+        JScrollPane scrollPane = new JScrollPane(tblProductFood);
         JPanel tablePanel = new JPanel(new BorderLayout());
         tablePanel.setBorder(new TitledBorder(new LineBorder(new Color(220,220,220)), "Danh sách sản phẩm", TitledBorder.LEFT, TitledBorder.TOP));
         tablePanel.add(scrollPane, BorderLayout.CENTER);
@@ -103,59 +111,20 @@ public class Warehouse_Form extends JPanel {
         f.gridy = 0; f.gridx = 0; f.anchor = GridBagConstraints.WEST;
 
         JLabel lblTongTien = new JLabel("Tổng tiền:");
-        txtTongTien = new JTextField("0");
-        txtTongTien.setEditable(false);
-        txtTongTien.setHorizontalAlignment(SwingConstants.RIGHT);
+        txtTotalMoney = new JTextField("0");
+        txtTotalMoney.setEditable(false);
+        txtTotalMoney.setHorizontalAlignment(SwingConstants.RIGHT);
 
-        btnNhap = new JButton("Nhập");
-        btnHuy = new JButton("Hủy");
+        btnInput = new JButton("Nhập");
+        btnCancel = new JButton("Hủy");
 
         footerPanel.add(lblTongTien, f);
-        f.gridx = 1; f.weightx = 1; f.fill = GridBagConstraints.HORIZONTAL; footerPanel.add(txtTongTien, f);
-        f.gridx = 2; f.weightx = 0; f.fill = GridBagConstraints.NONE; footerPanel.add(btnNhap, f);
-        f.gridx = 3; footerPanel.add(btnHuy, f);
+        f.gridx = 1; f.weightx = 1; f.fill = GridBagConstraints.HORIZONTAL; footerPanel.add(txtTotalMoney, f);
+        f.gridx = 2; f.weightx = 0; f.fill = GridBagConstraints.NONE; footerPanel.add(btnInput, f);
+        f.gridx = 3; footerPanel.add(btnCancel, f);
 
         mainPanel.add(headerPanel, BorderLayout.NORTH);
         mainPanel.add(tablePanel, BorderLayout.CENTER);
         mainPanel.add(footerPanel, BorderLayout.SOUTH);
     }
-
-    // Getters
-
-    public JTextField getTxtNguoiNhap() {
-        return txtNguoiNhap;
-    }
-
-    public JSpinner getSpNgayNhap() {
-        return spNgayNhap;
-    }
-
-    public JComboBox<String> getCboKhoNhap() {
-        return cboKhoNhap;
-    }
-
-    public JTable getTblSanPham() {
-        return tblSanPham;
-    }
-
-    public DefaultTableModel getTableModel() {
-        return tableModel;
-    }
-
-    public boolean isIsUpdating() {
-        return isUpdating;
-    }
-
-    public JTextField getTxtTongTien() {
-        return txtTongTien;
-    }
-
-    public JButton getBtnNhap() {
-        return btnNhap;
-    }
-
-    public JButton getBtnHuy() {
-        return btnHuy;
-    }
-
 }

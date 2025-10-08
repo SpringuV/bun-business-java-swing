@@ -1,12 +1,12 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package GUI.Form.Orders;
-
 
 import GUI.Component.RoundedPanel;
 import GUI.Component.WrapLayout;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
+import model.Food;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -35,32 +35,30 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author Admin
- */
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class Order_Form extends JPanel {
 
     // === Các hằng số cho màu sắc và Font chữ ===
-    private static final Color COLOR_BACKGROUND = new Color(245, 245, 245);
-    private static final Color COLOR_PRIMARY = new Color(237, 125, 49); // Màu cam chủ đạo
-    private static final Color COLOR_TEXT_DARK = new Color(51, 51, 51);
-    private static final Font FONT_TITLE = new Font("Segoe UI", Font.BOLD, 24);
-    private static final Font FONT_CATEGORY = new Font("Segoe UI", Font.BOLD, 16);
-    private static final Font FONT_FOOD_NAME = new Font("Segoe UI", Font.BOLD, 14);
-    private static final Font FONT_FOOD_PRICE = new Font("Segoe UI", Font.PLAIN, 13);
-    private static final Font FONT_BUTTON = new Font("Segoe UI", Font.BOLD, 16);
+    static final Color COLOR_BACKGROUND = new Color(245, 245, 245);
+    static final Color COLOR_PRIMARY = new Color(237, 125, 49); // Màu cam chủ đạo
+    static final Color COLOR_TEXT_DARK = new Color(51, 51, 51);
+    static final Font FONT_TITLE = new Font("Segoe UI", Font.BOLD, 24);
+    static final Font FONT_CATEGORY = new Font("Segoe UI", Font.BOLD, 16);
+    static final Font FONT_FOOD_NAME = new Font("Segoe UI", Font.BOLD, 14);
+    static final Font FONT_FOOD_PRICE = new Font("Segoe UI", Font.PLAIN, 13);
+    static final Font FONT_BUTTON = new Font("Segoe UI", Font.BOLD, 16);
 
     // === Các thành phần giao diện ===
-    private JList<String> categoryList;
-    private DefaultListModel<String> categoryModel;
-    private JPanel foodPanel;
-    private JTable billTable;
-    private DefaultTableModel billModel;
-    private JLabel totalLabel;
+    JList<String> categoryList;
+    DefaultListModel<String> categoryModel;
+    JPanel foodPanel;
+    JTable billTable;
+    DefaultTableModel billModel;
+    JLabel totalLabel;
 
     // === Dữ liệu ===
-    private final Map<String, List<FoodItem>> menuData = new LinkedHashMap<>();
+    final Map<String, List<Food>> menuData = new LinkedHashMap<>();
 
     public Order_Form() {
         // --- 1. Thiết lập Panel chính ---
@@ -86,7 +84,7 @@ public class Order_Form extends JPanel {
         this.add(billPanel, BorderLayout.EAST);
 
         // --- 3. Tải dữ liệu mẫu ---
-        initSampleData();
+//        initSampleData();
         populateCategories();
     }
 
@@ -170,7 +168,6 @@ public class Order_Form extends JPanel {
     }
 
     // === PHƯƠNG THỨC XỬ LÝ DỮ LIỆU ===
-
     private void populateCategories() {
         for (String category : menuData.keySet()) {
             categoryModel.addElement(category);
@@ -180,10 +177,10 @@ public class Order_Form extends JPanel {
 
     private void loadFoods(String category) {
         foodPanel.removeAll();
-        List<FoodItem> foods = menuData.get(category);
+        List<Food> foods = menuData.get(category);
         if (foods == null) return;
 
-        for (FoodItem f : foods) {
+        for (Food f : foods) {
             JPanel card = createFoodCard(f);
             foodPanel.add(card);
         }
@@ -191,7 +188,7 @@ public class Order_Form extends JPanel {
         foodPanel.repaint();
     }
 
-    private JPanel createFoodCard(FoodItem food) {
+    private JPanel createFoodCard(Food food) {
         JPanel card = new JPanel(new BorderLayout(5, 5));
         card.setPreferredSize(new Dimension(160, 160));
         card.setBackground(Color.WHITE);
@@ -211,11 +208,11 @@ public class Order_Form extends JPanel {
         infoPanel.setBackground(Color.WHITE);
         infoPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
         
-        JLabel lblName = new JLabel("<html><center>" + food.name + "</center></html>");
+        JLabel lblName = new JLabel("<html><center>" + food.getName_food() + "</center></html>");
         lblName.setFont(FONT_FOOD_NAME);
         lblName.setHorizontalAlignment(SwingConstants.CENTER);
         
-        JLabel lblPrice = new JLabel(food.getFormattedPrice());
+        JLabel lblPrice = new JLabel(getFormattedPrice(food.getPrices()));
         lblPrice.setFont(FONT_FOOD_PRICE);
         lblPrice.setForeground(COLOR_PRIMARY);
         lblPrice.setHorizontalAlignment(SwingConstants.CENTER);
@@ -236,48 +233,8 @@ public class Order_Form extends JPanel {
         
         return card;
     }
-
-    // === DỮ LIỆU MẪU (BẠN SẼ THAY BẰNG DỮ LIỆU TỪ DATABASE) ===
-
-    private void initSampleData() {
-        // Dữ liệu cho quán bún bò O Hà
-        menuData.put("Tất cả", new ArrayList<>());
-        menuData.put("Bún Bò Huế", List.of(
-            new FoodItem("Niêu sườn đuôi O Hà", 105000, "/images/bun_bo.png"),
-            new FoodItem("Bún Bò Đặc Biệt", 80000, "/images/bun_bo.png"),
-            new FoodItem("Bún Bò Chả Cua", 65000, "/images/bun_bo.png")
-        ));
-        menuData.put("Bánh Huế", List.of(
-            new FoodItem("Bánh Bột Lọc", 50000, "/images/banh_loc.png"),
-            new FoodItem("Nem Lụi Set 6", 90000, "/images/nem_lui.png"),
-            new FoodItem("Nem Lụi Set 4", 60000, "/images/nem_lui.png")
-        ));
-        menuData.put("Đồ uống", List.of(
-            new FoodItem("Cafe Muối", 35000, "/images/cafe.png"),
-            new FoodItem("Trà Ướp Bưởi", 25000, "/images/tra.png"),
-            new FoodItem("Cam Ép", 40000, "/images/cam_ep.png")
-        ));
-        
-        // Gộp tất cả
-        List<FoodItem> allItems = new ArrayList<>();
-        menuData.values().forEach(allItems::addAll);
-        menuData.put("Tất cả", allItems);
-    }
-
-    // === Class nội bộ cho món ăn mẫu ===
-    static class FoodItem {
-        String name;
-        int price;
-        String imagePath; // Thêm đường dẫn ảnh
-
-        FoodItem(String name, int price, String imagePath) {
-            this.name = name;
-            this.price = price;
-            this.imagePath = imagePath;
-        }
-
-        String getFormattedPrice() {
-            return NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(price);
-        }
+    
+    private String getFormattedPrice(double prices) {
+        return NumberFormat.getCurrencyInstance(new Locale("vi", "VN")).format(prices);
     }
 }

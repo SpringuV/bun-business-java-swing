@@ -1,5 +1,7 @@
 package app;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import repository.implement.CustomerRepositoryImplement;
 import repository.implement.FoodRepositoryImplement;
 import repository.implement.GuestTableRepositoryImplement;
@@ -17,17 +19,17 @@ import repository.interfaceRepo.InvoiceRepository;
 import repository.interfaceRepo.OrderRepository;
 import repository.interfaceRepo.UserRepository;
 
-
+@FieldDefaults(level = AccessLevel.PUBLIC, makeFinal = true)
 public class AppContext {
     // --- Repository ---
-    public static final UserRepository userRepository = new UserRepositoryImplement();
-    public static final CustomerRepository customerRepository = new CustomerRepositoryImplement();
-    public static final FoodRepository foodRepository = new FoodRepositoryImplement();
-    public static final GuestTableRepository guestTableRepository = new GuestTableRepositoryImplement();
-    public static final IngredientRepository ingredientRepository = new IngredientRepositoryImplement();
-    public static final InventoryRepository inventoryTransactionRepository = new InventoryRepositoryImplement();
-    public static final InvoiceRepository invoiceRepository = new InvoiceRepositoryImplement();
-    public static final OrderRepository orderRepository = new OrderRepositoryImplement();
+    static UserRepository userRepository = new UserRepositoryImplement();
+    static CustomerRepository customerRepository = new CustomerRepositoryImplement();
+    static FoodRepository foodRepository = new FoodRepositoryImplement();
+    static GuestTableRepository guestTableRepository = new GuestTableRepositoryImplement();
+    static IngredientRepository ingredientRepository = new IngredientRepositoryImplement();
+    static InventoryRepository inventoryTransactionRepository = new InventoryRepositoryImplement();
+    static InvoiceRepository invoiceRepository = new InvoiceRepositoryImplement();
+    static OrderRepository orderRepository = new OrderRepositoryImplement();
 
     // --- Nếu sau này có Service ---
     // public static final UserService userService = new UserService(userRepository);
