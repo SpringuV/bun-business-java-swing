@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package GUI.Form;
+package GUI.Form.Auth;
 
 import GUI.Component.FadePanel;
 import GUI.Component.RoundedBorder;
@@ -10,6 +10,10 @@ import GUI.Component.RoundedButton;
 import GUI.Component.RoundedButtonToggle;
 import GUI.Component.RoundedPasswordField;
 import GUI.Component.RoundedTextField;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.experimental.FieldDefaults;
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
@@ -30,25 +34,23 @@ import javax.swing.SwingConstants;
 import javax.swing.Timer;
 import org.jdesktop.swingx.prompt.PromptSupport;
 
-/**
- *
- * @author Admin
- */
 @SuppressWarnings("serial")
+@Getter
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginAndRegister_Form extends JFrame {
-	private JLayeredPane layered;
-	private JPanel leftForm, rightForm, introPanel;
-	private JTextField txtUserLogin, txtUserRegister, txtEmail;
-	private JPasswordField txtPassLogin, txtPassRegister;
-	private JButton btnLogin, btnForgot, btnRegister, btnToggle;
+	JLayeredPane layered;
+	JPanel leftForm, rightForm, introPanel;
+	JTextField txtUserLogin, txtUserRegister, txtEmail;
+	JPasswordField txtPassLogin, txtPassRegister;
+	JButton btnLogin, btnForgot, btnRegister, btnToggle;
 	public boolean showingLogin = true;
-	private Timer anim;
-	private JLabel txt;
+	Timer anim;
+	JLabel txt;
 
-	private final int FRAME_W = 1016;
-	private final int FRAME_H = 600;
-	private final int INTRO_W = 416; // chiều rộng panel đỏ
-	private final int FORM_W = FRAME_W - INTRO_W; // 600 nếu FRAME_W=1016
+	final int FRAME_W = 1016;
+	final int FRAME_H = 600;
+	final int INTRO_W = 416; // chiều rộng panel đỏ
+	final int FORM_W = FRAME_W - INTRO_W; // 600 nếu FRAME_W=1016
 
 	public LoginAndRegister_Form() {
 		setTitle("Login And Register");
@@ -241,7 +243,6 @@ public class LoginAndRegister_Form extends JFrame {
 		btnToggle.setAlignmentX(Component.CENTER_ALIGNMENT);
 		btnToggle.setMaximumSize(new Dimension(150, 36));
 
-
 		content.add(Box.createVerticalGlue());
 		content.add(logo);
 		content.add(Box.createRigidArea(new Dimension(0, 20)));
@@ -254,94 +255,11 @@ public class LoginAndRegister_Form extends JFrame {
 
 		return p;
 	}
-//---------------------------End Intro-----------------------------------------
-
-//getter
-	public JTextField getTxtUserLogin() {
-		return txtUserLogin;
-	}
-
-	public JTextField getTxtUserRegister() {
-		return txtUserRegister;
-	}
-
-	public JTextField getTxtEmail() {
-		return txtEmail;
-	}
-
-	public JPasswordField getTxtPassLogin() {
-		return txtPassLogin;
-	}
-
-	public JPasswordField getTxtPassRegister() {
-		return txtPassRegister;
-	}
-
-	public JButton getBtnLogin() {
-		return btnLogin;
-	}
-
-	public JButton getBtnForgot() {
-		return btnForgot;
-	}
-
-	public JButton getBtnRegister() {
-		return btnRegister;
-	}
-
-	public JButton getBtnToggle() {
-		return btnToggle;
-	}
-
-	public Timer getAnim() {
-		return anim;
-	}
-
-	public boolean isShowingLogin() {
-		return showingLogin;
-	}
-
-	public JLabel getTxt() {
-		return txt;
-	}
-
-	public JLayeredPane getLayered() {
-		return layered;
-	}
-
-	public JPanel getLeftForm() {
-		return leftForm;
-	}
-
-	public JPanel getIntroPanel() {
-		return introPanel;
-	}
-
-	public JPanel getRightForm() {
-		return rightForm;
-	}
-
-	public int getFRAME_W() {
-		return FRAME_W;
-	}
-
-	public int getFRAME_H() {
-		return FRAME_H;
-	}
-
-	public int getINTRO_W() {
-		return INTRO_W;
-	}
-
-	public int getFORM_W() {
-		return FORM_W;
-	}
 
 	public void setAnim(Timer anim) {
 		this.anim = anim;
 	}
-
-//     public static void main(String[] args) {
-//        SwingUtilities.invokeLater(() -> new LoginAndRegister_Form().setVisible(true));
-//    }
+//---------------------------End Intro-----------------------------------------
+	
+	
 }

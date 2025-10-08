@@ -5,7 +5,7 @@ import javax.swing.SwingUtilities;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-import GUI.Form.LoginAndRegister_Form;
+import GUI.Form.Auth.LoginAndRegister_Form;
 import controller.LoginAndRegister_Controller;
 import model.User;
 import repository.interfaceRepo.SessionUtils;

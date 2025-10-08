@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package controller;
 
 import GUI.Component.FadePanel;
-import GUI.Form.LoginAndRegister_Form;
+import GUI.Form.Auth.LoginAndRegister_Form;
 import app.AppRouter;
 import lombok.AccessLevel;
 import lombok.experimental.FieldDefaults;
@@ -15,10 +11,6 @@ import repository.interfaceRepo.UserRepository;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
-/**
- *
- * @author Admin
- */
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class LoginAndRegister_Controller {
 	LoginAndRegister_Form DN_DkForm;

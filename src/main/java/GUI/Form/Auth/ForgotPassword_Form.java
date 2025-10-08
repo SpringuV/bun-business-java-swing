@@ -1,4 +1,4 @@
-package GUI.Form;
+package GUI.Form.Auth;
 
 import GUI.Component.RoundedButton;
 import GUI.Component.RoundedTextField;
