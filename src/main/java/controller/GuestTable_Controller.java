@@ -25,17 +25,7 @@ public class GuestTable_Controller {
         listenActioner();
     }
 
-        private void listenActioner() {
-//Menu------------------------------------------------------------------------
-            dBan_Form.getMenuDatBan().addActionListener((e) -> {
-                dBan_Form.getContentPane().removeAll();
-                dBan_Form.add(dBan_Form.getMainPannel());
-                dBan_Form.setJMenuBar(dBan_Form.getMenuBarr());
-                dBan_Form.revalidate();
-                dBan_Form.repaint();
-            });
-            
-            
+        private void listenActioner() {        
 //---------------------------sự kiện của các thẻ bàn---------------------------
         for (RoundedPanel panel : dBan_Form.getTableList()) {
             panel.addMouseListener(new MouseAdapter() {

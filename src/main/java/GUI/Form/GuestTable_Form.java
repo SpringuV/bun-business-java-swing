@@ -16,57 +16,32 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
 
 /**
  *
  * @author Admin
  */
-public class GuestTable_Form extends JFrame {
+public class GuestTable_Form extends JPanel {
     private List<RoundedPanel> tableList = new ArrayList<>();// lưu toàn bộ các bàn tạo ở vòng for
-    private JMenuBar menuBarr;
-    private JMenu menu;
-    private JMenuItem menuQLSanPham, menuQLNhapXuatKho, menuThongKeBaoCao, menuQuanLyKho, menuDatBan;
-    private JPanel mainPannel;
+
     
     public GuestTable_Form() {
-        setTitle("Đặt bàn");
-        setSize(1000, 600);
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        
-        mainPannel = new JPanel();
-        mainPannel.setLayout(new BorderLayout());
-        setBackground(new Color(245, 245, 245));
-        //e để tạm cái menu như này 
-        menuBarr = new JMenuBar();
-        menu = new JMenu("Giao diện");
-        menuDatBan = new JMenuItem("Đặt bàn");
-        menuQLSanPham = new JMenuItem("Quản lý sản phẩm");
-        menuQLNhapXuatKho = new JMenuItem("Quản lý Nhập/xuất");
-        menuQuanLyKho = new  JMenuItem("Quản lý kho");
-        menuThongKeBaoCao = new JMenuItem("Thông kê và báo cáo");
-        menu.add(menuDatBan);
-        menu.add(menuQLSanPham);
-        menu.add(menuQLNhapXuatKho);
-        menu.add(menuQuanLyKho);
-        menu.add(menuThongKeBaoCao);
-        menuBarr.add(menu);
-        setJMenuBar(menuBarr);
-        
+        this.setLayout(new BorderLayout());
+        this.setBackground(new Color(245, 245, 245));
 
-        JLabel title = new JLabel("Sơ đồ bàn quán bún bò Huế O Hà", SwingConstants.CENTER);
-        title.setFont(new Font("Segoe UI", Font.BOLD, 26));
-        title.setForeground(new Color(109, 7, 7));
-        title.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
-        mainPannel.add(title, BorderLayout.NORTH);
-
+        JLabel lbTitle = new JLabel("Sơ đồ bàn quán bún bò Huế O Hà");
+        JPanel header = new JPanel(new BorderLayout());
+        header.setBackground(new Color(120, 0, 0) );
+        header.setBorder(new EmptyBorder(10, 16, 10, 16));
+        lbTitle.setForeground(Color.WHITE);
+        lbTitle.setFont(lbTitle.getFont().deriveFont(Font.BOLD, 16f));
+        header.add(lbTitle, BorderLayout.WEST);
+        add(header, BorderLayout.NORTH);
+        
         // Khu vực chứa bàn
         JPanel tableGrid = new JPanel(new GridLayout(3, 4, 20, 20));
         tableGrid.setBackground(new Color(245, 245, 245));
@@ -103,49 +78,15 @@ public class GuestTable_Form extends JFrame {
         }
 
        
-        mainPannel.add(tableGrid, BorderLayout.CENTER);
-        this.add(mainPannel);
+        this.add(tableGrid, BorderLayout.CENTER);
+        
+        
+        
         GuestTable_Controller controller = new GuestTable_Controller(this);
     }
-
     public List<RoundedPanel> getTableList() {
         return tableList;
     }
 
-    public JMenuBar getMenuBarr() {
-        return menuBarr;
-    }
-
-    public JMenu getMenu() {
-        return menu;
-    }
-
-    public JMenuItem getMenuQLSanPham() {
-        return menuQLSanPham;
-    }
-
-    public JMenuItem getMenuQLNhapXuatKho() {
-        return menuQLNhapXuatKho;
-    }
-
-    public JMenuItem getMenuThongKeBaoCao() {
-        return menuThongKeBaoCao;
-    }
-
-    public JMenuItem getMenuQuanLyKho() {
-        return menuQuanLyKho;
-    }
-
-    public JMenuItem getMenuDatBan() {
-        return menuDatBan;
-    }
-
-    public JPanel getMainPannel() {
-        return mainPannel;
-    }
-
-    public static void main(String[] args) {
-        new GuestTable_Form().setVisible(true);
-    }
 }
 
