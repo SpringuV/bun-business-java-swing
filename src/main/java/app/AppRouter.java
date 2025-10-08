@@ -1,7 +1,7 @@
 package app;
 
-import GUI.Form.GuestTable_Form;
 import GUI.Form.LoginAndRegister_Form;
+import GUI.Form.GuestTable.GuestTable_Form;
 import controller.GuestTable_Controller;
 import controller.LoginAndRegister_Controller;
 
@@ -9,9 +9,8 @@ public class AppRouter {
 	
 	// hiển thị guest table
 	public static void goToGuestTable() {
-        GuestTable_Form form = new GuestTable_Form();
-        new GuestTable_Controller(form, AppContext.guestTableRepository);
-        form.setVisible(true);
+		GuestTable_Form form = GuestTable_Controller.createFormWithController(AppContext.guestTableRepository);
+	    form.setVisible(true);
     }
 	
 	
@@ -21,4 +20,5 @@ public class AppRouter {
 		new LoginAndRegister_Controller(formLogin, AppContext.userRepository);
 		formLogin.setVisible(true);
 	}
+	
 }

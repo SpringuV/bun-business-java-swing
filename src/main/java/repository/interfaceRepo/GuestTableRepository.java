@@ -6,9 +6,9 @@ import model.GuestTable;
 import model.GuestTable.TypeTable;
 
 public interface GuestTableRepository {
-	boolean createGuestTable(TypeTable type_table) throws Exception;
+	boolean createGuestTable(TypeTable type_table, boolean is_available) throws Exception;
 	
-	List<GuestTable> getListTalbeAvailable() throws Exception;
+	List<GuestTable> getListTable() throws Exception;
 	
 	String deleteTableById(int id) throws Exception;
 	

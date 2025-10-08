@@ -15,17 +15,17 @@ public class GuestTableRepositoryImplement extends BaseDao<GuestTable> implement
 	private static final Logger logger = LogManager.getLogger(GuestTableRepositoryImplement.class);
 	
 	@Override
-	public boolean createGuestTable(TypeTable type_table) throws Exception {
-		GuestTable guestTable = GuestTable.builder().is_available(true).type(type_table).build();
+	public boolean createGuestTable(TypeTable type_table, boolean is_available) throws Exception {
+		GuestTable guestTable = GuestTable.builder().is_available(is_available).type(type_table).build();
 		return saveOrUpdate(guestTable) != null;
 	}
 	
 	@Override
-	public List<GuestTable> getListTalbeAvailable() throws Exception {
+	public List<GuestTable> getListTable() throws Exception {
 		List<GuestTable> guest_table_list;
 		try {
 			startOperation();
-			String hql = "SELECT gt FROM GuestTable gt WHERE gt.is_available = true";
+			String hql = "FROM GuestTable";
 			guest_table_list = session.createQuery(hql, GuestTable.class).list();
 			transaction.commit();
 		} catch (Exception e) {
