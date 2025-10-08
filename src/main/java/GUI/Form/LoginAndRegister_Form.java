@@ -37,6 +37,7 @@ import org.jdesktop.swingx.prompt.PromptSupport;
  *
  * @author Admin
  */
+@SuppressWarnings("serial")
 public class LoginAndRegister_Form extends JFrame {
     private JLayeredPane layered;
     private JPanel leftForm, rightForm, introPanel;

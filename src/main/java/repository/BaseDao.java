@@ -90,21 +90,23 @@ public abstract class BaseDao<T> {
     /**
      * Lấy tất cả entity
      */
-    public List<T> findAll(Class<T> clazz) throws Exception {
-        List<T> list;
-        try {
-            startOperation();
-            Query<T> query = session.createQuery("from " + clazz.getName(), clazz);
-            list = query.list();
-        } catch (Exception e) {
-        	SessionUtils.rollback(transaction);
-            logger.error("Error findAll: {}", e.getMessage(), e);
-            throw e;
-        } finally {
-            closeSession();
-        }
-        return list;
-    }
+	@SuppressWarnings("hiding")
+	public <T> List<T> findAll(Class<T> clazz) throws Exception {
+	    List<T> list;
+	    try {
+	        startOperation();
+	        Query<T> query = session.createQuery("from " + clazz.getSimpleName(), clazz);
+	        list = query.list();
+	        transaction.commit();
+	    } catch (Exception e) {
+	        SessionUtils.rollback(transaction);
+	        logger.error("Error findAll: {}", e.getMessage(), e);
+	        throw e;
+	    } finally {
+	        closeSession();
+	    }
+	    return list;
+	}
 
     /**
      * Thực thi HQL Update/Delete

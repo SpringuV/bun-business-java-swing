@@ -7,7 +7,4 @@ import model.KeyOrderItem;
 
 public class KeyOrderItemRepositoryImplement extends BaseDao<KeyOrderItem>{
 	private static final Logger logger = LogManager.getLogger(KeyOrderItemRepositoryImplement.class);
-	
-	
-	
 }

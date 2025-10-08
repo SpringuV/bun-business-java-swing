@@ -1,9 +1,12 @@
 package repository;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import model.Customer;
+import model.User;
 
 public class CustomerRepositoryImplement extends BaseDao<Customer> {
 	private static final Logger logger = LogManager.getLogger(CustomerRepositoryImplement.class);
@@ -12,6 +15,10 @@ public class CustomerRepositoryImplement extends BaseDao<Customer> {
 		Customer customer = Customer.builder().phone_number(phone_number).name_cus(name).sex_cus(sex)
 				.description(description).build();
 		return saveOrUpdate(customer) != null;
+	}
+	
+	public List<User> getListUser() throws Exception{
+		return findAll(User.class);
 	}
 
 	public String deleteCustomerByPhoneNumber(String phone) throws Exception {

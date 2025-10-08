@@ -123,7 +123,7 @@ public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
 		return invoice_list;
 	}
 
-	public List<Invoice> getInvoicesByUserPhoneOnDate(String phone_number, String date_order) throws Exception {
+	public List<Invoice> getListInvoicesByCustomerPhoneOnDate(String phone_number, String date_order) throws Exception {
 		List<Invoice> invoice_list;
 		try {
 			// chuyển từ string sang localdatetime
@@ -133,7 +133,7 @@ public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
 			LocalDateTime endOfDay = dateOrder.plusDays(1).atStartOfDay();
 			// start session and transaction
 			startOperation();
-			String hql = "SELECT i FROM Invoice i WHERE i.user.phone_number=:phone_number"
+			String hql = "SELECT i FROM Invoice i WHERE i.customer.phone_number=:phone_number"
 					+ " AND i.created_at >= :startOfDay AND i.created_at < :endOfDay ORDER BY i.created_at ASC";
 			invoice_list = session.createQuery(hql, Invoice.class).setParameter("phone_number", phone_number)
 					.setParameter("date_order", dateOrder).setParameter("startOfDay", startOfDay)
@@ -142,7 +142,7 @@ public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
 		} catch (Exception e) {
 			// TODO: handle exception
 			SessionUtils.rollback(transaction);
-			logger.error("Error getInvoicesByUserPhoneOnDate: {}", e.getMessage(), e);
+			logger.error("Error getInvoicesByCustomerPhoneOnDate: {}", e.getMessage(), e);
 			throw e;
 		} finally {
 			closeSession();
