@@ -2,12 +2,15 @@ package service;
 
 import java.util.List;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import model.GuestTable;
 import model.GuestTable.TypeTable;
 import repository.interfaceRepo.GuestTableRepository;
 
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class GuestTableService {
-	private final GuestTableRepository repository;
+	final GuestTableRepository repository;
 
     public GuestTableService(GuestTableRepository repository) {
         this.repository = repository;

@@ -170,10 +170,6 @@ public class GuestTable_Form extends JFrame implements IGuestTableView {
 		showMessage("Mở Order cho bàn " + table.getId_table());
 	}
 
-	public List<RoundedPanel> getTableList() {
-		return tableList;
-	}
-
 	public void setController(GuestTable_Controller controller) {
 		this.controller = controller;
 	}

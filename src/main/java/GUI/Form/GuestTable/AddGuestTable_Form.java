@@ -11,7 +11,7 @@ import java.awt.*;
 @SuppressWarnings("serial")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class AddGuestTable_Form extends JFrame {
-	JComboBox<String> cbType;
+	JComboBox<String> comboboxType;
     JCheckBox chkAvailable;
     JButton btnSave, btnCancel;
     GuestTable_Controller controller;
@@ -36,11 +36,11 @@ public class AddGuestTable_Form extends JFrame {
         JPanel formPanel = new JPanel(new GridLayout(2, 2, 10, 10));
         formPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
         JLabel lblType = new JLabel("Loại bàn:");
-        cbType = new JComboBox<>(new String[]{"NORMAL", "VIP"});
+        comboboxType = new JComboBox<>(new String[]{"NORMAL", "VIP"});
         JLabel lblAvailable = new JLabel("Trạng thái:");
         chkAvailable = new JCheckBox("Trống", true);
         formPanel.add(lblType);
-        formPanel.add(cbType);
+        formPanel.add(comboboxType);
         formPanel.add(lblAvailable);
         formPanel.add(chkAvailable);
         add(formPanel, BorderLayout.CENTER);
@@ -57,7 +57,7 @@ public class AddGuestTable_Form extends JFrame {
     }
 
     private void saveTable() {
-        String typeStr = (String) cbType.getSelectedItem();
+        String typeStr = (String) comboboxType.getSelectedItem();
         boolean available = chkAvailable.isSelected();
         controller.onAddTable(TypeTable.valueOf(typeStr), available);
         dispose();

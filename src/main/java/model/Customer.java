@@ -32,20 +32,20 @@ public class Customer {
 	@Column(name="phone_number")
 	@Size(min = 10, max = 10, message = "Bạn phải nhập đúng 10 số của số điện thoại !")
 	@Pattern(regexp = "^[0-9]+$", message = "Không nhập kí tự chữ")
-	private String phone_number;
+	String phone_number;
 	
 	@Column(name="name_cus")
-	private String name_cus;
+	String name_cus;
 	
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-	private List<Invoice> invoice_list;
+	List<Invoice> invoice_list;
 	
 	@Column(name="sex_cus")
-	private boolean sex_cus;
+	boolean sex_cus;
 	
 	@Column(name="description")
-	private String description;
+	String description;
 	
 	@OneToMany(mappedBy = "customer", cascade = CascadeType.ALL)
-	private List<Orders> order_list;
+	List<Orders> order_list;
 }
