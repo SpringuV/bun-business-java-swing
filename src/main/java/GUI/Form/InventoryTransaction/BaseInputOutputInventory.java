@@ -2,6 +2,10 @@ package GUI.Form.InventoryTransaction;
 
 import javax.swing.*;
 import javax.swing.border.*;
+
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+
 import java.awt.*;
 import java.util.List;
 
@@ -19,40 +23,32 @@ import java.util.List;
  *  - setTitle() & lblTitle.setText()
  *  - gọi setWarehouses()
  *  - gán cellRenderer phù hợp
- *  
- *  
- *   * Form "Chọn kho xuất" — phiên bản đơn giản theo ảnh mẫu + nút Tiếp tục
- *  - Header nền đỏ mận + nút Back + tiêu đề
- *  - Ô tìm kiếm "Nhập tên, mã kho"
- *  - Danh sách kho dạng thẻ (tên đậm, địa chỉ mờ)
- *  - Nút **Tiếp tục** căn phải phía trên thanh điều hướng
- *  - Thanh điều hướng dưới (đỏ mận)
- * UI only; cung cấp getter để Controller gắn logic chọn kho mở form chi tiết sau.
  */
+@FieldDefaults(level = AccessLevel.PROTECTED)
 public abstract class BaseInputOutputInventory<T> extends JFrame {
 	// ===== Theme =====
-    protected static final Color PRIMARY = new Color(128, 0, 0); // đỏ mận
-    protected static final Color CARD_DIVIDER = new Color(245, 245, 245);
-    protected static final Color TEXT_MUTED = new Color(90, 90, 90);
+    static final Color PRIMARY = new Color(128, 0, 0); // đỏ mận
+    static final Color CARD_DIVIDER = new Color(245, 245, 245);
+    static final Color TEXT_MUTED = new Color(90, 90, 90);
 
     // ===== Header =====
-    protected final JButton btnBack = new JButton("←");
-    protected final JLabel lblTitle = new JLabel();
+    final JButton btnBack = new JButton("←");
+    final JLabel lblTitle = new JLabel();
 
     // ===== Search + List =====
-    protected final JTextField txtSearch = new JTextField();
-    protected final DefaultListModel<T> listModel = new DefaultListModel<>();
-    protected final JList<T> warehouseList = new JList<>(listModel);
+    final JTextField txtSearch = new JTextField();
+    final DefaultListModel<T> listModel = new DefaultListModel<>();
+    final JList<T> warehouseList = new JList<>(listModel);
 
     // ===== Action =====
-    protected final JButton btnContinue = new JButton("Tiếp tục");
+    final JButton btnContinue = new JButton("Tiếp tục");
 
     // ===== Bottom navigation =====
-    protected final JButton navHome = new JButton("Trang chủ");
-    protected final JButton navOps  = new JButton("Nghiệp vụ");
-    protected final JButton navSale = new JButton("Bán hàng");
-    protected final JButton navCat  = new JButton("Danh mục");
-    protected final JButton navUser = new JButton("Tài khoản");
+    final JButton navHome = new JButton("Trang chủ");
+    final JButton navOps  = new JButton("Nghiệp vụ");
+    final JButton navSale = new JButton("Bán hàng");
+    final JButton navCat  = new JButton("Danh mục");
+    final JButton navUser = new JButton("Tài khoản");
 
     public BaseInputOutputInventory() {
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
