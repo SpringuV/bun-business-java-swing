@@ -26,59 +26,72 @@ public class GuestTable_Controller {
 	IGuestTableView view;
 
 	public GuestTable_Controller(GuestTableService service, IGuestTableView view) {
-        this.service = service;
-        this.view = view;
-    }
+		this.service = service;
+		this.view = view;
+	}
 
-	
 	public void loadTables() {
-        List<GuestTable> tables = service.getAllTables();
-        view.displayTables(tables);
-    }
+		List<GuestTable> tables = service.getAllTables();
+		view.displayTables(tables);
+	}
 
-    public void onAddTableClicked() {
-        view.openAddTableForm();
-    }
+//	private void listenActioner() {        
+////---------------------------sự kiện của các thẻ bàn---------------------------
+//        for (RoundedPanel panel : dBan_Form.getTableList()) {
+//            panel.addMouseListener(new MouseAdapter() {
+//                //hover-------------------------
+//                @Override
+//                public void mouseEntered(MouseEvent e) {
+//                    RoundedPanel p = (RoundedPanel) e.getSource();
+//                    Color base = (Color) p.getClientProperty("baseColor");
+//                    p.setPanelColor(base.darker());
+//                }
+//            }
+//        }
+//	}
 
-    public void onAddTable(TypeTable type, boolean available) {
-        boolean success = service.addTable(type, available);
-        if (success) view.showMessage("Thêm bàn thành công!");
-        else view.showMessage("Không thể thêm bàn!");
-        loadTables();
-    }
-    
-    private void handleTableClick(GuestTable table) {
-        String message = String.format("Bàn: %s\nTrạng thái: %s\n\nBạn có muốn mở order?",
-            table.getId_table(),
-            table.is_available() ? "Trống" : "Đang phục vụ");
+	public void onAddTableClicked() {
+		view.openAddTableForm();
+	}
 
-        int result = JOptionPane.showConfirmDialog(null, message, "Xác nhận", JOptionPane.YES_NO_OPTION);
-        if (result == JOptionPane.YES_OPTION) {
-            view.openOrderForm(table);
-        }
-    }
+	public void onAddTable(TypeTable type, boolean available) {
+		boolean success = service.addTable(type, available);
+		if (success)
+			view.showMessage("Thêm bàn thành công!");
+		else
+			view.showMessage("Không thể thêm bàn!");
+		loadTables();
+	}
 
+	private void handleTableClick(GuestTable table) {
+		String message = String.format("Bàn: %s\nTrạng thái: %s\n\nBạn có muốn mở order?", table.getId_table(),
+				table.is_available() ? "Trống" : "Đang phục vụ");
 
-    private void setupListeners() {
-        view.addMenuDatBanListener(e -> view.openAddTableForm());
+		int result = JOptionPane.showConfirmDialog(null, message, "Xác nhận", JOptionPane.YES_NO_OPTION);
+		if (result == JOptionPane.YES_OPTION) {
+			view.openOrderForm(table);
+		}
+	}
 
-        view.addTablePanelMouseListener(new MouseAdapter() {
-        	@Override
-            public void mouseClicked(MouseEvent e) {
-                RoundedPanel panel = (RoundedPanel) e.getSource();
-                GuestTable table = (GuestTable) panel.getClientProperty("guestTable");
-                handleTableClick(table);
-            }
+	private void setupListeners() {
+		view.addMenuDatBanListener(e -> view.openAddTableForm());
+
+		view.addTablePanelMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RoundedPanel panel = (RoundedPanel) e.getSource();
+				GuestTable table = (GuestTable) panel.getClientProperty("guestTable");
+				handleTableClick(table);
+			}
 		});
-    }
-    
-    public void onTableClicked(GuestTable table) {
-        view.openOrderForm(table);
-    }
+	}
 
+	public void onTableClicked(GuestTable table) {
+		view.openOrderForm(table);
+	}
 
 	public void setView(IGuestTableView view) {
 		this.view = view;
 	}
-    
+
 }
