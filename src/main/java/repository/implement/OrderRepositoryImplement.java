@@ -1,4 +1,4 @@
-package repository;
+package repository.implement;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,10 +17,14 @@ import model.KeyOrderItem;
 import model.OrderItem;
 import model.Orders;
 import model.User;
+import repository.interfaceRepo.BaseDao;
+import repository.interfaceRepo.OrderRepository;
+import repository.interfaceRepo.SessionUtils;
 
-public class OrderRepositoryImplement extends BaseDao<Orders> {
+public class OrderRepositoryImplement extends BaseDao<Orders> implements OrderRepository{
 	private static final Logger logger = LogManager.getLogger(OrderRepositoryImplement.class);
 
+	@Override
 	public Orders createOrder(String user_phone, String cus_phone, List<OrderItem> order_item_list_tmp,
 			double total_amount) throws Exception {
 		// tạo các đối tượng để lưu
@@ -51,6 +55,7 @@ public class OrderRepositoryImplement extends BaseDao<Orders> {
 		return saveOrUpdate(order);
 	}
 
+	@Override
 	public Orders updateOrder(int id_order, List<OrderItem> order_item_list_tmp, double total_amount)
 			throws Exception {
 		Orders order = findById(Orders.class, id_order);
@@ -68,6 +73,7 @@ public class OrderRepositoryImplement extends BaseDao<Orders> {
 		return saveOrUpdate(order);
 	}
 
+	@Override
 	public List<Orders> getListOrderByUserPhoneNumber(String phone_number) throws Exception {
 		List<Orders> user_order_list;
 		try {
@@ -85,6 +91,7 @@ public class OrderRepositoryImplement extends BaseDao<Orders> {
 		return user_order_list;
 	}
 
+	@Override
 	public List<Orders> getListOrderByStatus(Orders.OrderStatus status) throws Exception {
 		List<Orders> order_list = new ArrayList<Orders>();
 		try {
@@ -104,6 +111,7 @@ public class OrderRepositoryImplement extends BaseDao<Orders> {
 		return order_list;
 	}
 
+	@Override
 	public List<Orders> getListOrderByStartDateAndEndDate(String start_date, String end_date) throws Exception {
 		List<Orders> order_list;
 		// chuyển từ string sang localdatetime
@@ -128,6 +136,7 @@ public class OrderRepositoryImplement extends BaseDao<Orders> {
 		return order_list;
 	}
 
+	@Override
 	public List<Orders> getListOrderByCustomerPhoneNumber(String phone_number) throws Exception {
 		List<Orders> customer_order_list;
 
@@ -149,6 +158,7 @@ public class OrderRepositoryImplement extends BaseDao<Orders> {
 		return customer_order_list;
 	}
 
+	@Override
 	public String deleteOrderById(int id_order) throws Exception {
 		String result = "delete failed";
 		try {
@@ -171,6 +181,7 @@ public class OrderRepositoryImplement extends BaseDao<Orders> {
 		return result;
 	}
 
+	@Override
 	public String deleteOrderByCustomer(String phone_number) throws Exception {
 		String result = "delete failed";
 		try {

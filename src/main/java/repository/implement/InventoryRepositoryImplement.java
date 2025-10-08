@@ -1,4 +1,4 @@
-package repository;
+package repository.implement;
 
 import java.util.List;
 import java.util.Optional;
@@ -9,10 +9,14 @@ import model.Ingredient;
 import model.InventoryTransaction;
 import model.User;
 import model.InventoryTransaction.TypeInventoryTransaction;
+import repository.interfaceRepo.BaseDao;
+import repository.interfaceRepo.InventoryRepository;
+import repository.interfaceRepo.SessionUtils;
 
-public class InventoryRepositoryImplement extends BaseDao<InventoryTransaction> {
+public class InventoryRepositoryImplement extends BaseDao<InventoryTransaction> implements InventoryRepository{
 	private static final Logger logger = LogManager.getLogger(InventoryRepositoryImplement.class);
 
+	@Override
 	public boolean createInventoryTrans(String user_phone, int quantity, String name_ingredients, String note,
 			TypeInventoryTransaction type) throws Exception {
 		InventoryTransaction inventoryTransaction = InventoryTransaction.builder().quantity(quantity).note(note)
@@ -21,6 +25,7 @@ public class InventoryRepositoryImplement extends BaseDao<InventoryTransaction> 
 		return saveOrUpdate(inventoryTransaction) != null;
 	}
 
+	@Override
 	public String deleteInventoryById(Long id) throws Exception {
 		String result = "delete failed";
 		try {
@@ -41,6 +46,7 @@ public class InventoryRepositoryImplement extends BaseDao<InventoryTransaction> 
 		return result;
 	}
 
+	@Override
 	public List<InventoryTransaction> getListInventoryByUserId(String id_user) throws Exception {
 		List<InventoryTransaction> inventory_list;
 		try {
@@ -60,10 +66,12 @@ public class InventoryRepositoryImplement extends BaseDao<InventoryTransaction> 
 		return inventory_list;
 	}
 
+	@Override
 	public InventoryTransaction findByInventoryId(Long id) throws Exception {
 		return findById(InventoryTransaction.class, id);
 	}
 
+	@Override
 	public InventoryTransaction updateInventory(Long id, Optional<Integer> quantity,
 			Optional<TypeInventoryTransaction> type, Optional<String> note) throws Exception {
 		InventoryTransaction inventoryTransaction = findByInventoryId(id);
@@ -78,6 +86,7 @@ public class InventoryRepositoryImplement extends BaseDao<InventoryTransaction> 
 		return saveOrUpdate(inventoryTransaction);
 	}
 
+	@Override
 	public List<InventoryTransaction> getListInventoryByMonthInYear(int month, int year) throws Exception {
 		List<InventoryTransaction> inventory_list;
 		try {
@@ -97,6 +106,7 @@ public class InventoryRepositoryImplement extends BaseDao<InventoryTransaction> 
 		return inventory_list;
 	}
 	
+	@Override
 	public String deleteInventoryByMonthInYear(int month, int year) throws Exception {
 		String result = "delete failed";
 		try {

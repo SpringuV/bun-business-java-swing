@@ -1,4 +1,4 @@
-package repository;
+package repository.implement;
 
 import java.util.List;
 
@@ -7,15 +7,20 @@ import org.apache.logging.log4j.Logger;
 
 import model.GuestTable;
 import model.GuestTable.TypeTable;
+import repository.interfaceRepo.BaseDao;
+import repository.interfaceRepo.GuestTableRepository;
+import repository.interfaceRepo.SessionUtils;
 
-public class GuestTableRepositoryImplement extends BaseDao<GuestTable>{
+public class GuestTableRepositoryImplement extends BaseDao<GuestTable> implements GuestTableRepository{
 	private static final Logger logger = LogManager.getLogger(GuestTableRepositoryImplement.class);
 	
+	@Override
 	public boolean createGuestTable(TypeTable type_table) throws Exception {
 		GuestTable guestTable = GuestTable.builder().is_available(true).type(type_table).build();
 		return saveOrUpdate(guestTable) != null;
 	}
 	
+	@Override
 	public List<GuestTable> getListTalbeAvailable() throws Exception {
 		List<GuestTable> guest_table_list;
 		try {
@@ -34,6 +39,7 @@ public class GuestTableRepositoryImplement extends BaseDao<GuestTable>{
 		return guest_table_list;
 	}
 	
+	@Override
 	public String deleteTableById(int id) throws Exception {
 		String result = "delete failed";
 		try {

@@ -1,4 +1,4 @@
-package repository;
+package repository.interfaceRepo;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

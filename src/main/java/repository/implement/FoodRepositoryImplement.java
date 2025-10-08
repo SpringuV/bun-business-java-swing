@@ -1,4 +1,4 @@
-package repository;
+package repository.implement;
 
 import java.util.List;
 import java.util.Optional;
@@ -8,10 +8,14 @@ import org.apache.logging.log4j.Logger;
 
 import model.Food;
 import model.Food.FoodType;
+import repository.interfaceRepo.BaseDao;
+import repository.interfaceRepo.FoodRepository;
+import repository.interfaceRepo.SessionUtils;
 
-public class FoodRepositoryImplement extends BaseDao<Food> {
+public class FoodRepositoryImplement extends BaseDao<Food> implements FoodRepository {
 	private static final Logger logger = LogManager.getLogger(FoodRepositoryImplement.class);
 
+	@Override
 	public boolean createFood(String id_food, String name_food, double prices, String description, String image_path, FoodType type_food,
 			boolean is_available) throws Exception {
 		Food food = Food.builder().description(description).id_food(id_food).name_food(name_food).image_path(image_path).prices(prices)
@@ -19,6 +23,7 @@ public class FoodRepositoryImplement extends BaseDao<Food> {
 		return saveOrUpdate(food) != null;
 	}
 	
+	@Override
 	public Food updateFood(String id_food, Optional<String> name_food, Optional<Double> prices, Optional<String> description, Optional<String> image_path, Optional<FoodType> type_food,
 			Optional<Boolean> is_available) throws Exception {
 		Food food = findById(Food.class, id_food);
@@ -35,10 +40,12 @@ public class FoodRepositoryImplement extends BaseDao<Food> {
 		return saveOrUpdate(food);
 	}
 	
+	@Override
 	public List<Food> getListFood() throws Exception{
 		return findAll(Food.class);
 	}
 
+	@Override
 	public String deleteFood(String id_food) throws Exception {
 		String result = "delete failed";
 		try {

@@ -1,4 +1,4 @@
-package repository;
+package repository.implement;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,16 +11,21 @@ import org.hibernate.query.Query;
 import model.Orders;
 import model.User;
 import model.User.UserStatus;
+import repository.interfaceRepo.BaseDao;
+import repository.interfaceRepo.SessionUtils;
+import repository.interfaceRepo.UserRepository;
 
 // viết các hàm truy vấn database
-public class UserRepositoryImplement extends BaseDao<User> {
+public class UserRepositoryImplement extends BaseDao<User> implements UserRepository{
 	private static final Logger logger = LogManager.getLogger(UserRepositoryImplement.class);
 
+	@Override
 	public boolean createUser(String phoneNumber, String pass, String role) throws Exception {
 		User user = User.builder().phone_number(phoneNumber).pass(pass).role(role).build();
 		return saveOrUpdate(user) != null;
 	}
 
+	@Override
 	public User findByPhoneNumber(String phone_number) {
 		User user = null;
 		try {
@@ -44,14 +49,17 @@ public class UserRepositoryImplement extends BaseDao<User> {
 		return user;
 	}
 
+	@Override
 	public List<User> getListUser() throws Exception {
 		return findAll(User.class);
 	}
 	
+	@Override
 	public User findById(String id_user) throws Exception {
 		return findById(User.class, id_user);
 	}
 	
+	@Override
 	public User updateUser(Optional<UserStatus> status, Optional<String> full_name, Optional<String> pass, Optional<String> phone_number, String id_user) throws Exception {
 		User user = findById(id_user);
 		if(user == null) {
@@ -64,6 +72,7 @@ public class UserRepositoryImplement extends BaseDao<User> {
 		return saveOrUpdate(user);
 	}
 	
+	@Override
 	public User login(String phone_number, String password) throws Exception {
 		User user = null;
 		try {

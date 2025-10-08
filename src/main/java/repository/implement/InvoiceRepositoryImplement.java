@@ -1,4 +1,4 @@
-package repository;
+package repository.implement;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -15,10 +15,15 @@ import model.Orders;
 import model.User;
 import model.Invoice.PaymentMethod;
 import model.Invoice.PaymentStatus;
+import repository.interfaceRepo.BaseDao;
+import repository.interfaceRepo.InventoryRepository;
+import repository.interfaceRepo.InvoiceRepository;
+import repository.interfaceRepo.SessionUtils;
 
-public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
+public class InvoiceRepositoryImplement extends BaseDao<Invoice> implements InvoiceRepository{
 	private static final Logger logger = LogManager.getLogger(InvoiceRepositoryImplement.class);
 
+	@Override
 	public boolean createInvoice(Orders order, double discount, PaymentMethod payment_method, PaymentStatus payment_status, String note, User user, Customer customer) throws Exception {
 		Invoice invoice = Invoice.builder()
 				.user(user)
@@ -32,6 +37,7 @@ public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
 		return saveOrUpdate(invoice) != null;
 	}
 	
+	@Override
 	public Invoice findInvoiceById(String id_invoice) throws Exception {
 		Invoice invoice = Invoice.builder().build();
 		try {
@@ -50,6 +56,7 @@ public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
 		return invoice;
 	}
 	
+	@Override
 	public List<Invoice> getListInvoiceByCustomerPhoneNumber(String phone_number) throws Exception {
 		List<Invoice> invoice_list;
 		try {
@@ -68,6 +75,7 @@ public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
 		return invoice_list;
 	}
 
+	@Override
 	public List<Invoice> getListInvoiceByStartDateAndEndDate(String start_date, String end_date) throws Exception {
 		List<Invoice> invoice_list;
 		try {
@@ -93,6 +101,7 @@ public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
 		return invoice_list;
 	}
 
+	@Override
 	public List<Invoice> getListInvoiceByUserPhoneNumberAndDateOrderASC(String phone_number, String date_order)
 			throws Exception {
 		List<Invoice> invoice_list;
@@ -123,6 +132,7 @@ public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
 		return invoice_list;
 	}
 
+	@Override
 	public List<Invoice> getListInvoicesByCustomerPhoneOnDate(String phone_number, String date_order) throws Exception {
 		List<Invoice> invoice_list;
 		try {
@@ -150,6 +160,7 @@ public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
 		return invoice_list;
 	}
 
+	@Override
 	public List<Invoice> getListInvoiceByMonthInYear(int month, int year) {
 		List<Invoice> invoice_list;
 		try {
@@ -174,6 +185,7 @@ public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
 		return invoice_list;
 	}
 
+	@Override
 	public String deleteInvoiceByMonthInYear(int month, int year) throws Exception {
 		String result = "delete Invoice " + month + " failed";
 		try {
@@ -199,6 +211,7 @@ public class InvoiceRepositoryImplement extends BaseDao<Invoice> {
 		return result;
 	}
 
+	@Override
 	public String deleteInvoiceByCustomerPhoneNumber(String phone_number) throws Exception {
 		String result = "delete failed";
 		try {

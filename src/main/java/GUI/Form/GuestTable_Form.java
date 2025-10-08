@@ -105,7 +105,6 @@ public class GuestTable_Form extends JFrame {
        
         mainPannel.add(tableGrid, BorderLayout.CENTER);
         this.add(mainPannel);
-        GuestTable_Controller controller = new GuestTable_Controller(this);
     }
 
     public List<RoundedPanel> getTableList() {
