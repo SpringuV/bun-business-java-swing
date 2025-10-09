@@ -19,6 +19,10 @@ public class ProfessionController {
     final WarehouseService service;
     final IProfessionView view;
     List<WareHouse> allWarehouses; // lưu tạm danh sách đầy đủ
+    
+    Timer inputDebounce;
+    Timer outputDebounce;
+    final int DEBOUNCE_DELAY = 500; // 300ms
 
     public ProfessionController(WarehouseService service, IProfessionView view) {
         this.service = service;
@@ -40,8 +44,19 @@ public class ProfessionController {
 
     // Thiết lập tìm kiếm với debounce
     private void setupSearch() {
-        view.addInputSearchListener(() -> filterInput());
-        view.addOutputSearchListener(() -> filterOutput());
+        // Input search
+        inputDebounce = new Timer(DEBOUNCE_DELAY, e -> filterInput());
+        inputDebounce.setRepeats(false);
+        view.addInputSearchListener(() -> {
+            inputDebounce.restart();
+        });
+
+        // Output search
+        outputDebounce = new Timer(DEBOUNCE_DELAY, e -> filterOutput());
+        outputDebounce.setRepeats(false);
+        view.addOutputSearchListener(() -> {
+            outputDebounce.restart();
+        });
     }
 
     private void filterInput() {
