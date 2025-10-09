@@ -1,5 +1,8 @@
 package GUI.Form.GuestTable;
 
+import GUI.Component.Notification.NotificationDialog;
+import GUI.Component.Notification.NotificationType;
+import GUI.Component.RoundedButton;
 import GUI.Component.RoundedPanel;
 import GUI.Interface.IGuestTableView;
 import controller.GuestTable_Controller;
@@ -7,7 +10,6 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.experimental.FieldDefaults;
 import model.GuestTable;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -20,7 +22,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.BorderFactory;
-import javax.swing.JFrame;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -54,6 +56,7 @@ public class GuestTable_Panel extends JPanel implements IGuestTableView {
 
 		setupMenuBar();
 		setupTitle();
+//                setupBtnAddTable();
 	}
 
 	private void setupMenuBar() {
@@ -93,6 +96,15 @@ public class GuestTable_Panel extends JPanel implements IGuestTableView {
 		title.setBorder(BorderFactory.createEmptyBorder(20, 0, 20, 0));
 		mainPanel.add(title, BorderLayout.NORTH);
 	}
+        
+//        private void setupBtnAddTable() {
+//                JPanel pnAddTable = new JPanel();
+//                JButton btnAddTable = new RoundedButton("Thêm bàn mới", 30);
+//                btnAddTable.setPreferredSize(new Dimension(140, 40));
+//                pnAddTable.add(btnAddTable);
+//                mainPanel.add(pnAddTable, BorderLayout.SOUTH);
+//                
+//        }   
 
 	// ================= IGuestTableView =================
 	@Override
@@ -174,7 +186,7 @@ public class GuestTable_Panel extends JPanel implements IGuestTableView {
 	@Override
 	public void openOrderForm(GuestTable table) {
 		showMessage("Mở Order cho bàn " + table.getId_table());
-	}
+        }
 
 	public void setController(GuestTable_Controller controller) {
 		this.controller = controller;
