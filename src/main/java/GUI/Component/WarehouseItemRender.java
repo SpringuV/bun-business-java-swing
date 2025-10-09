@@ -46,10 +46,15 @@ public class WarehouseItemRender extends JPanel implements ListCellRenderer<Ware
 	public Component getListCellRendererComponent(JList<? extends WareHouse> list, WareHouse value, int index,
 			boolean isSelected, boolean cellHasFocus) {
 		// TODO Auto-generated method stub
-		lbNameWareHouse.setText(value.getName());
-		lbAddressWarehouse.setText(value.getAddress());
+		lbNameWareHouse.setText(value.getName_warehouse());
+		lbAddressWarehouse.setText(value.getAddress_warehouse());
         setOpaque(true);
         setBackground(isSelected ? new Color(230, 243, 255) : Color.WHITE);
+        if (isSelected) {
+            setBorder(BorderFactory.createLineBorder(new Color(0, 120, 215), 2));
+        } else {
+            setBorder(BorderFactory.createMatteBorder(0, 0, 8, 0, CARD_DIVIDER));
+        }
         return this;
 	}
 }

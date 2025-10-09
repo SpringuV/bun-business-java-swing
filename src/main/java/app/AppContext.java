@@ -10,6 +10,7 @@ import repository.implement.InventoryRepositoryImplement;
 import repository.implement.InvoiceRepositoryImplement;
 import repository.implement.OrderRepositoryImplement;
 import repository.implement.UserRepositoryImplement;
+import repository.implement.WarehouseRepositoryImplement;
 import repository.interfaceRepo.CustomerRepository;
 import repository.interfaceRepo.FoodRepository;
 import repository.interfaceRepo.GuestTableRepository;
@@ -18,6 +19,7 @@ import repository.interfaceRepo.InventoryRepository;
 import repository.interfaceRepo.InvoiceRepository;
 import repository.interfaceRepo.OrderRepository;
 import repository.interfaceRepo.UserRepository;
+import repository.interfaceRepo.WareHouseRepository;
 
 @FieldDefaults(level = AccessLevel.PUBLIC, makeFinal = true)
 public class AppContext {
@@ -30,6 +32,7 @@ public class AppContext {
     static InventoryRepository inventoryTransactionRepository = new InventoryRepositoryImplement();
     static InvoiceRepository invoiceRepository = new InvoiceRepositoryImplement();
     static OrderRepository orderRepository = new OrderRepositoryImplement();
+    static WareHouseRepository wareHouseRepository = new WarehouseRepositoryImplement();
 
     // --- Nếu sau này có Service ---
     // public static final UserService userService = new UserService(userRepository);

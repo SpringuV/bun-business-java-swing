@@ -28,12 +28,12 @@ public class Main {
 			session = SessionUtils.getSession();
 			tx = session.beginTransaction();
 
-			String phone = "0123456789";
+			String phone = "admin";
 			User existingUser = session.createQuery("FROM User u WHERE u.phone_number = :phone", User.class)
 					.setParameter("phone", phone).uniqueResult();
 
 			if (existingUser == null) {
-				User user = User.builder().phone_number(phone).pass("123456").role("admin").build();
+				User user = User.builder().phone_number(phone).pass("123").role("admin").build();
 				session.persist(user);
 				System.out.println("✅ Đã tạo user admin mặc định!");
 			} else {

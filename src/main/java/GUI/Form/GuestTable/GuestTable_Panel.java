@@ -32,7 +32,7 @@ import javax.swing.SwingConstants;
 @SuppressWarnings("serial")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @Getter
-public class GuestTable_Form extends JFrame implements IGuestTableView {
+public class GuestTable_Panel extends JPanel implements IGuestTableView {
 	List<RoundedPanel> tableList = new ArrayList<>();// lưu toàn bộ các bàn tạo ở vòng for
 	JMenuBar menuBarr;
 	JMenu menu;
@@ -40,31 +40,31 @@ public class GuestTable_Form extends JFrame implements IGuestTableView {
 	JPanel mainPanel;
 	GuestTable_Controller controller;
 
-	public GuestTable_Form() {
+	public GuestTable_Panel() {
 		init();
 	}
 
 	// ============== INITIALIZATION ==============
 	private void init() {
-		setTitle("Đặt bàn");
-		setSize(1000, 600);
-		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setLayout(new BorderLayout());
+		setBackground(Color.WHITE);
+
 		mainPanel = new JPanel(new BorderLayout());
-		add(mainPanel);
+		add(mainPanel, BorderLayout.CENTER);
 
 		setupMenuBar();
 		setupTitle();
 	}
 
 	private void setupMenuBar() {
+		// thêm menu bar như 1 panel con ở phía trên
 		menuBarr = new JMenuBar();
 		menu = new JMenu("Giao diện");
 		menuDatBan = new JMenuItem("Đặt bàn");
 		menuQLSanPham = new JMenuItem("Quản lý sản phẩm");
 		menuQLNhapXuatKho = new JMenuItem("Quản lý Nhập/xuất");
 		menuQuanLyKho = new JMenuItem("Quản lý kho");
-		menuThongKeBaoCao = new JMenuItem("Thông kê và báo cáo");
+		menuThongKeBaoCao = new JMenuItem("Thống kê và báo cáo");
 		menuThemBan = new JMenuItem("Thêm bàn mới");
 
 		menu.add(menuThemBan);
@@ -74,9 +74,15 @@ public class GuestTable_Form extends JFrame implements IGuestTableView {
 		menu.add(menuQuanLyKho);
 		menu.add(menuThongKeBaoCao);
 		menuBarr.add(menu);
-		setJMenuBar(menuBarr);
 
-		menuThemBan.addActionListener(e -> controller.onAddTableClicked());
+		// Đặt menu bar lên trên panel chính
+		add(menuBarr, BorderLayout.NORTH);
+
+		// Gắn sự kiện
+		menuThemBan.addActionListener(e -> {
+			if (controller != null)
+				controller.onAddTableClicked();
+		});
 		menuDatBan.addActionListener(e -> showMessage("Tính năng đặt bàn đang phát triển!"));
 	}
 

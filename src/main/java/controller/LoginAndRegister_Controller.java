@@ -78,7 +78,7 @@ public class LoginAndRegister_Controller {
 		User user = userRepository.login(username, password);
 		if (user != null) {
 			JOptionPane.showMessageDialog(null, "Đăng nhập thành công");
-			AppRouter.goToGuestTable();
+			AppRouter.goToMainForm();
 		    // Đóng form đăng nhập
 		    DN_DkForm.dispose();
 		} else {

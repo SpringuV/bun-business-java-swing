@@ -50,5 +50,6 @@
 		<mapping class="model.Orders" />
 		<mapping class="model.OrderItem" />
 		<mapping class="model.User" />
+		<mapping class="model.WareHouse" />
 	</session-factory>
 </hibernate-configuration>
