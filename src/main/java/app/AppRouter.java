@@ -30,16 +30,16 @@ public class AppRouter {
     }
 
 	public static Profession_Panel goToProfessionPanel() {
-	    Profession_Panel panel = new Profession_Panel();
+	    Profession_Panel panelView = new Profession_Panel();
 	    WarehouseService service = new WarehouseService(AppContext.wareHouseRepository);
-	    ProfessionController controller = new ProfessionController(service, panel);
+	    ProfessionController controller = new ProfessionController(service, panelView);
 	    try {
 	        controller.init();
 	    } catch (Exception ex) {
 	        ex.printStackTrace();
 	        JOptionPane.showMessageDialog(null, "Không thể tải danh sách kho: " + ex.getMessage());
 	    }
-	    return panel;
+	    return panelView;
 	}
 	
 	// hiển thị login

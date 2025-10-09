@@ -13,11 +13,12 @@ import model.WareHouse;
 import service.WarehouseService;
 import utils.SimpleDocumentListener;
 
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ProfessionController {
-    static Logger logger = LogManager.getLogger(ProfessionController.class);
-    WarehouseService service;
-    IProfessionView view;
+    final static Logger logger = LogManager.getLogger(ProfessionController.class);
+    final WarehouseService service;
+    final IProfessionView view;
+    List<WareHouse> allWarehouses; // lưu tạm danh sách đầy đủ
 
     public ProfessionController(WarehouseService service, IProfessionView view) {
         this.service = service;
@@ -32,54 +33,38 @@ public class ProfessionController {
 
     // Load dữ liệu kho và đẩy vào view
     private void loadWarehouses() throws Exception {
-        List<WareHouse> list = service.getAllWarehouses();
-        view.setInputWarehouses(list);
-        view.setOutputWarehouses(list);
+    	allWarehouses = service.getAllWarehouses();
+        view.setInputWarehouses(allWarehouses);
+        view.setOutputWarehouses(allWarehouses);
     }
 
     // Thiết lập tìm kiếm với debounce
     private void setupSearch() {
-        setupDebounceSearch(() -> view.getInputSearchText(), view::setInputWarehouses);
-        setupDebounceSearch(() -> view.getOutputSearchText(), view::setOutputWarehouses);
+        view.addInputSearchListener(() -> filterInput());
+        view.addOutputSearchListener(() -> filterOutput());
     }
 
-    private void setupDebounceSearch(SearchTextGetter getter, WareHouseListSetter setter) {
-        Timer debounceTimer = new Timer(1500, e -> {
-            try {
-                String keyword = getter.getText();
-                List<WareHouse> list = service.getAllWarehouses();
-                String key = keyword == null ? "" : keyword.trim().toLowerCase();
-                List<WareHouse> filtered = list.stream()
-                        .filter(w -> w.getName_warehouse().toLowerCase().contains(key)
-                                || w.getCode_warehouse().toLowerCase().contains(key))
-                        .toList();
-                setter.setWareHouses(filtered);
-            } catch (Exception ex) {
-                logger.error("Lỗi filterWarehouses: {}", ex.getMessage(), ex);
-            }
-        });
-        debounceTimer.setRepeats(false);
-
-        // Giả lập SimpleDocumentListener gắn vào getter (có thể bind từ view)
-        getter.addListener(() -> debounceTimer.restart());
+    private void filterInput() {
+        String key = view.getInputSearchText();
+        List<WareHouse> filtered = allWarehouses.stream()
+                .filter(word -> word.getName_warehouse().toLowerCase().contains(key)
+                        || word.getCode_warehouse().toLowerCase().contains(key))
+                .toList();
+        view.setInputWarehouses(filtered);
     }
 
-    // Menu actions
+    private void filterOutput() {
+        String key = view.getOutputSearchText();
+        List<WareHouse> filtered = allWarehouses.stream()
+                .filter(word -> word.getName_warehouse().toLowerCase().contains(key)
+                        || word.getCode_warehouse().toLowerCase().contains(key))
+                .toList();
+        view.setOutputWarehouses(filtered);
+    }
+
     private void setupMenuActions() {
         view.addInputWarehouseListener(e -> view.showInputWarehousePanel());
         view.addOutputWarehouseListener(e -> view.showOutputWarehousePanel());
         view.addInventoryListener(e -> view.showStatisticalPanel());
-    }
-
-    // Functional interfaces để tách dữ liệu và setter
-    @FunctionalInterface
-    private interface SearchTextGetter {
-        String getText();
-        default void addListener(Runnable listener) {}
-    }
-
-    @FunctionalInterface
-    private interface WareHouseListSetter {
-        void setWareHouses(List<WareHouse> list);
     }
 }
